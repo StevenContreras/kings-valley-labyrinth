@@ -1,3 +1,5 @@
+import { BOARD_SIZE } from "./constants";
+import { isInsideBoard } from "./position";
 import type { Position, Direction } from "./types";
 
 export function getNextPosition(position: Position, direction: Direction): Position {
@@ -42,6 +44,19 @@ export function getNextPosition(position: Position, direction: Direction): Posit
                 row: position.row - 1,
                 col: position.col - 1,
             };
-    }
-
+    };
 };
+
+export function getSlidingDestination(position: Position, direction: Direction): Position {
+    let destination: Position = {
+        row: position.row,
+        col: position.col,
+    };
+    let nextPosition: Position = getNextPosition(destination, direction);
+
+    while (isInsideBoard(nextPosition)) {
+        destination = nextPosition;
+        nextPosition = getNextPosition(destination, direction);
+    }
+    return destination;
+}
