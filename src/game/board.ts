@@ -1,4 +1,4 @@
-import type { Position } from "./types";
+import type { GameState, Position } from "./types";
 import { isSamePosition } from "./position";
 
 export function isBlockedPosition(pos1: Position, blockedList: Position[]): boolean {
@@ -8,4 +8,12 @@ export function isBlockedPosition(pos1: Position, blockedList: Position[]): bool
         }
     }
     return false;
+}
+
+export function getBlockedPositions(gameState: GameState): Position[] {
+    const blockedPositions: Position[] = [
+        ...gameState.pieces.map(piece => piece.position), 
+        ...gameState.walls
+        ];
+    return blockedPositions;
 }
