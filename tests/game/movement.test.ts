@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { getNextPosition, getSlidingDestination } from "../../src/game/movement";
-import type { Direction } from "../../src/game/types";
+import { startingGameState, emptyBoardGameState } from "./fixtures/gameStates";
+import type { Direction, Position } from "../../src/game/types";
 
 // Unit tests for basic directional movement.
 // These tests intentionally keep each direction case explicit instead of using
@@ -111,9 +112,13 @@ describe("getNextPosition", () => {
 });
 
 describe("getSlidingDestination", () => {
-    const pos1 = {
+    const pos1: Position = {
         row: 3,
         col: 3, 
+    };
+    const pos2: Position = {
+        row: 1,
+        col: 2, 
     };
     const north: Direction = "N";
     const northeast: Direction = "NE";
@@ -123,60 +128,68 @@ describe("getSlidingDestination", () => {
     const southwest: Direction  = "SW";
     const west: Direction  = "W";
     const northwest: Direction  = "NW";
+
     it("returns destination at the N end of the board", () => {
-        const result = getSlidingDestination(pos1, north);
+        const result = getSlidingDestination(pos1, north, emptyBoardGameState);
         expect(result).toEqual({
             row: 0,
             col: 3,
         });
     });
     it("returns destination at the NE end of the board", () => {
-        const result = getSlidingDestination(pos1, northeast);
+        const result = getSlidingDestination(pos1, northeast, emptyBoardGameState);
         expect(result).toEqual({
             row: 0,
             col: 6,
         });
     });
     it("returns destination at the E end of the board", () => {
-        const result = getSlidingDestination(pos1, east);
+        const result = getSlidingDestination(pos1, east, emptyBoardGameState);
         expect(result).toEqual({
             row: 3,
             col: 6,
         });
     });
     it("returns destination at the SE end of the board", () => {
-        const result = getSlidingDestination(pos1, southeast);
+        const result = getSlidingDestination(pos1, southeast, emptyBoardGameState);
         expect(result).toEqual({
             row: 6,
             col: 6,
         });
     });
     it("returns destination at the S end of the board", () => {
-        const result = getSlidingDestination(pos1, south);
+        const result = getSlidingDestination(pos1, south, emptyBoardGameState);
         expect(result).toEqual({
             row: 6,
             col: 3,
         });
     });
     it("returns destination at the SW end of the board", () => {
-        const result = getSlidingDestination(pos1, southwest);
+        const result = getSlidingDestination(pos1, southwest, emptyBoardGameState);
         expect(result).toEqual({
             row: 6,
             col: 0,
         });
     });
     it("returns destination at the W end of the board", () => {
-        const result = getSlidingDestination(pos1, west);
+        const result = getSlidingDestination(pos1, west, emptyBoardGameState);
         expect(result).toEqual({
             row: 3,
             col: 0,
         });
     });
     it("returns destination at the NW end of the board", () => {
-        const result = getSlidingDestination(pos1, northwest);
+        const result = getSlidingDestination(pos1, northwest, emptyBoardGameState);
         expect(result).toEqual({
             row: 0,
             col: 0,
+        });
+    });
+    it("returns destinatiion with a wall blocking it's path", () => {
+        const result = getSlidingDestination(pos2, east, startingGameState);
+        expect(result).toEqual({
+            row: 1,
+            col: 4,
         });
     });
 });

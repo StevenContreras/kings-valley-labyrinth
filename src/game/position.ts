@@ -1,5 +1,5 @@
-import type { Position } from "./types";
 import { BOARD_SIZE } from "./constants";
+import type { Position } from "./types";
 
 export function isSamePosition(pos1: Position, pos2: Position): boolean {
     return pos1.row === pos2.row && pos1.col === pos2.col;
