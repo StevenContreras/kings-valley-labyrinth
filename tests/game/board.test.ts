@@ -5,7 +5,7 @@ import type { Position, GameState } from "../../src/game/types";
 
 describe("isBlockedPosition", () => {
     it("returns true for blocked position", () => {
-        const pos1: Position = { row: 1, col: 5 };
+        const pos1: Position = { row: 0, col: 5 };
         expect(isBlockedPosition(pos1, startingGameState)).toBe(true);
     });
     it("returns false for unblocked position", () => {

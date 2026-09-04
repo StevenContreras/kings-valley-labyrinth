@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { getNextPosition, getSlidingDestination } from "../../src/game/movement";
-import { startingGameState, emptyBoardGameState } from "./fixtures/gameStates";
+import { startingGameState, emptyBoardGameState, randomGameState } from "./fixtures/gameStates";
 import type { Direction, Position } from "../../src/game/types";
 
 // Unit tests for basic directional movement.
@@ -117,7 +117,7 @@ describe("getSlidingDestination", () => {
         col: 3, 
     };
     const pos2: Position = {
-        row: 1,
+        row: 2,
         col: 2, 
     };
     const north: Direction = "N";
@@ -185,11 +185,18 @@ describe("getSlidingDestination", () => {
             col: 0,
         });
     });
-    it("returns destinatiion with a wall blocking it's path", () => {
+    it("returns destinatiion with a wall blocking it's path for horizontal east movement", () => {
         const result = getSlidingDestination(pos2, east, startingGameState);
         expect(result).toEqual({
-            row: 1,
+            row: 2,
             col: 4,
         });
     });
+    // it("returns destination with a wall blocking it's path for vertical movement", () => {
+    //     const result = getSlidingDestination(pos2, east, randomGameState);
+    //     expect(result).toEqual({
+    //         row: 0,
+    //         col: 0,
+    //     })
+    // });
 });
