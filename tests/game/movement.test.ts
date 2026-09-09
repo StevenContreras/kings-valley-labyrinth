@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { getNextPosition, getSlidingDestination } from "../../src/game/movement";
-import { startingGameState, emptyBoardGameState, randomGameState } from "./fixtures/gameStates";
+import { startingBlockedPositions, emptyBlockedPositions, randomBlockedPositions } from "./fixtures/gameStates";
 import type { Direction, Position } from "../../src/game/types";
 
 // Unit tests for basic directional movement.
@@ -151,119 +151,119 @@ describe("getSlidingDestination", () => {
     const northwest: Direction  = "NW";
 
     it("returns destination at the N end of the board", () => {
-        const result = getSlidingDestination(pos1, north, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, north, emptyBlockedPositions);
         expect(result).toEqual({
             row: 0,
             col: 3,
         });
     });
     it("returns destination at the NE end of the board", () => {
-        const result = getSlidingDestination(pos1, northeast, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, northeast, emptyBlockedPositions);
         expect(result).toEqual({
             row: 0,
             col: 6,
         });
     });
     it("returns destination at the E end of the board", () => {
-        const result = getSlidingDestination(pos1, east, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, east, emptyBlockedPositions);
         expect(result).toEqual({
             row: 3,
             col: 6,
         });
     });
     it("returns destination at the SE end of the board", () => {
-        const result = getSlidingDestination(pos1, southeast, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, southeast, emptyBlockedPositions);
         expect(result).toEqual({
             row: 6,
             col: 6,
         });
     });
     it("returns destination at the S end of the board", () => {
-        const result = getSlidingDestination(pos1, south, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, south, emptyBlockedPositions);
         expect(result).toEqual({
             row: 6,
             col: 3,
         });
     });
     it("returns destination at the SW end of the board", () => {
-        const result = getSlidingDestination(pos1, southwest, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, southwest, emptyBlockedPositions);
         expect(result).toEqual({
             row: 6,
             col: 0,
         });
     });
     it("returns destination at the W end of the board", () => {
-        const result = getSlidingDestination(pos1, west, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, west, emptyBlockedPositions);
         expect(result).toEqual({
             row: 3,
             col: 0,
         });
     });
     it("returns destination at the NW end of the board in an empty board game state", () => {
-        const result = getSlidingDestination(pos1, northwest, emptyBoardGameState);
+        const result = getSlidingDestination(pos1, northwest, emptyBlockedPositions);
         expect(result).toEqual({
             row: 0,
             col: 0,
         });
     });
     it("returns destination SE end of board movement in starting game state", () => {
-        const result = getSlidingDestination(pos6, southeast, startingGameState);
+        const result = getSlidingDestination(pos6, southeast, startingBlockedPositions);
         expect(result).toEqual({
             row: 4,
             col: 6,
         });
     });
     it("returns destination with a wall blocking its path for vertical N movement in starting game state", () => {
-        const result = getSlidingDestination(pos2, north, startingGameState);
+        const result = getSlidingDestination(pos2, north, startingBlockedPositions);
         expect(result).toEqual({
             row: 5,
             col: 1,
         });
     });
     it("returns destination with a wall blocking its path for diagonal NE movement in starting game state", () => {
-        const result = getSlidingDestination(pos2, northeast, startingGameState);
+        const result = getSlidingDestination(pos2, northeast, startingBlockedPositions);
         expect(result).toEqual({
             row: 3,
             col: 4,
         });
     });
     it("returns destination with a wall blocking its path for vertical S movement in starting game state", () => {
-        const result = getSlidingDestination(pos3, south, startingGameState);
+        const result = getSlidingDestination(pos3, south, startingBlockedPositions);
         expect(result).toEqual({
             row: 1,
             col: 1,
         });
     });
     it("returns destination with a piece blocking its path for vertical N movement in starting game state", () => {
-        const result = getSlidingDestination(pos4, north, startingGameState);
+        const result = getSlidingDestination(pos4, north, startingBlockedPositions);
         expect(result).toEqual({
             row: 1,
             col: 3,
         });
     });
     it("returns destination of end of board for vertical S movement in random game state", () => {
-        const result = getSlidingDestination(pos7, south, randomGameState);
+        const result = getSlidingDestination(pos7, south, randomBlockedPositions);
         expect(result).toEqual({
             row: 6,
             col: 3,
         })
     });
     it("returns destination with a piece blocking its path for horizontal W movement in random game state", () => {
-        const result = getSlidingDestination(pos7, west, randomGameState);
+        const result = getSlidingDestination(pos7, west, randomBlockedPositions);
         expect(result).toEqual({
             row: 0,
             col: 2,
         })
     });
     it("returns destination with a wall blocking its path for diagonal SW movement in random game state", () => {
-        const result = getSlidingDestination(pos7, southwest, randomGameState);
+        const result = getSlidingDestination(pos7, southwest, randomBlockedPositions);
         expect(result).toEqual({
             row: 1,
             col: 2,
         })
     });
     it("returns destination with a wall blocking its path for horizontal E movement in random game state", () => {
-        const result = getSlidingDestination(pos5, east, randomGameState);
+        const result = getSlidingDestination(pos5, east, randomBlockedPositions);
         expect(result).toEqual({
             row: 4,
             col: 4,

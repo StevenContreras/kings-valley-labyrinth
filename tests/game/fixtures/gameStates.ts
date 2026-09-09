@@ -1,6 +1,6 @@
-import type { Position } from "../../../src/game/types";
+import type { Position, GameState } from "../../../src/game/types";
 
-export const startingGameState: Position[] = [
+export const startingBlockedPositions: Position[] = [
         { row: 0, col: 0 },// player 1 guard 1
         { row: 0, col: 1 },// player 1 guard 2
         { row: 0, col: 2 },// player 1 guard 3
@@ -21,7 +21,9 @@ export const startingGameState: Position[] = [
         { row: 4, col: 5 },// wall
     ];
 
-    export const randomGameState: Position[] = [
+    // Fixed blocked-position scenario used by movement tests.
+    // Do not edit these positions casually; several expected destinations depend on them.
+    export const randomBlockedPositions: Position[] = [
         { row: 5, col: 5 },// player 1 guard 1
         { row: 6, col: 1 },// player 1 guard 2
         { row: 2, col: 6 },// player 1 guard 3
@@ -42,4 +44,19 @@ export const startingGameState: Position[] = [
         { row: 4, col: 5 },// wall
     ];
 
-    export const emptyBoardGameState: Position[] = [];
+    export const emptyBlockedPositions: Position[] = [];
+
+    export const startingGameState: GameState = {
+        currentPlayer: "PLAYER_ONE",
+        pieces: [
+            {
+                id: "p1-guard-1",
+                owner: "PLAYER_ONE",
+                role: "GUARD",
+                position: { row: 6, col: 0 },
+            }
+        ],
+        walls: [],
+        status: "IN_PROGRESS",
+        winner: null,
+    };

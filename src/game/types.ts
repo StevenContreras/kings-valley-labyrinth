@@ -27,7 +27,6 @@ export type Piece = {
 export type GameStatus = "IN_PROGRESS" | "WON";
 
 export type GameState = {
-
     currentPlayer: Player;
     pieces: Piece[];
     walls: Position[];

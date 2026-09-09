@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { isBlockedPosition, getBlockedPositions } from "../../src/game/board";
-import { startingGameState } from "./fixtures/gameStates";
+import { startingBlockedPositions } from "./fixtures/gameStates";
 import type { Position, GameState } from "../../src/game/types";
 
 describe("isBlockedPosition", () => {
     it("returns true for blocked position", () => {
         const pos1: Position = { row: 0, col: 5 };
-        expect(isBlockedPosition(pos1, startingGameState)).toBe(true);
+        expect(isBlockedPosition(pos1, startingBlockedPositions)).toBe(true);
     });
     it("returns false for unblocked position", () => {
         const pos1: Position = { row: 3, col: 3 };
-        expect(isBlockedPosition(pos1, startingGameState)).toBe(false);
+        expect(isBlockedPosition(pos1, startingBlockedPositions)).toBe(false);
     });
 });
 
