@@ -54,9 +54,25 @@ export const startingBlockedPositions: Position[] = [
                 owner: "PLAYER_ONE",
                 role: "GUARD",
                 position: { row: 6, col: 0 },
+            },
+            {
+                id: "p1-guard-2",
+                owner: "PLAYER_ONE",
+                role: "GUARD",
+                position: { row: 6, col: 1 },
+            },
+            {
+                id: "p2-guard-1",
+                owner: "PLAYER_TWO",
+                role: "GUARD",
+                position: { row: 0, col: 0 },
             }
         ],
-        walls: [],
+        walls: [
+            { row: 5, col: 1}
+        ],
         status: "IN_PROGRESS",
         winner: null,
     };
+
+    export const nonExistentPieceId = "non-existent-piece";
