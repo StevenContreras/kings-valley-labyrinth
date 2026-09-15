@@ -1,7 +1,10 @@
 import {describe, expect, it} from "vitest";
-import { findPieceById, isValidMove } from "../../src/game/rules";
-import { startingGameState, nonExistentPieceId } from "./fixtures/gameStates";
+import { findPieceById, isValidMove, isWinningMove } from "../../src/game/rules";
+import { startingGameState, nonExistentPieceId, randomGameState } from "./fixtures/gameStates";
 import type { Direction } from "../../src/game/types";
+import { getBlockedPositions } from "../../src/game/board";
+import { getSlidingDestination } from "../../src/game/movement";
+import { VALLEY_POSITION } from "../../src/game/constants";
 
 
 
@@ -45,7 +48,7 @@ describe("isValidMove", () => {
         expect(result).toBe(false);
     });
     it("returns false when a valid current-player piece is blocked in the given direction", () => {
-        const direction: Direction = "N";
+        const direction: Direction = "W";
         const pieceId = "p1-guard-2";
         // Confirms the failure is due to blocked movement, not a missing piece or ownership.
         const piece = findPieceById(startingGameState, pieceId);
@@ -53,5 +56,85 @@ describe("isValidMove", () => {
         expect(piece?.owner).toBe(startingGameState.currentPlayer);
         const result = isValidMove(startingGameState, pieceId, direction);
         expect(result).toBe(false);
+    });
+    it("returns false when a valid current-player piece is a guard and the destination is the valley", () => {
+        const direction: Direction = "SW";
+        const pieceId = "p2-guard-6";
+        // Confirms the failure is due to an invalid valley movement restriction, not a missing piece or ownership. Also confirms destination is the valley.
+        const piece = findPieceById(randomGameState, pieceId);
+        expect(piece).toBeDefined();
+        expect(piece?.owner).toBe(randomGameState.currentPlayer);
+        expect(piece?.role).toBe("GUARD");
+        const blockedPositions = getBlockedPositions(randomGameState);
+        const destination = getSlidingDestination(
+            piece!.position, 
+            direction, 
+            blockedPositions
+        );
+        expect(destination).toEqual(VALLEY_POSITION);
+
+        const result = isValidMove(randomGameState, pieceId, direction);
+        expect(result).toBe(false);
+    });
+    it("returns true when a valid current-player piece is a king and the destination is the valley", () => {
+        const direction: Direction = "NE";
+        const pieceId = "p2-king";
+        // Confirms the success is due to a valid valley movement for a king, not a missing piece, non ownership, or non valley valid movement.
+        const piece = findPieceById(randomGameState, pieceId);
+        expect(piece).toBeDefined();
+        expect(piece?.owner).toBe(randomGameState.currentPlayer);
+        expect(piece?.role).toBe("KING");
+        const blockedPositions = getBlockedPositions(randomGameState);
+        const destination = getSlidingDestination(
+            piece!.position, 
+            direction, 
+            blockedPositions
+        );
+        expect(destination).toEqual(VALLEY_POSITION);
+
+        const result = isValidMove(randomGameState, pieceId, direction);
+        expect(result).toBe(true);
+    });
+});
+
+describe("isWinningMove", () => {
+    it("returns false if the move is not a winning move", () => {
+        const direction: Direction = "N";
+        const pieceId = "p1-king";
+        // Confirms the move is valid for the current player's king,
+        // but the destination is not the valley.
+        const piece = findPieceById(startingGameState, pieceId);
+        expect(piece).toBeDefined();
+        expect(piece?.owner).toBe(startingGameState.currentPlayer);
+        expect(piece?.role).toBe("KING");
+        const blockedPositions = getBlockedPositions(startingGameState);
+        const destination = getSlidingDestination(
+            piece!.position, 
+            direction, 
+            blockedPositions
+        );
+        expect(destination).not.toEqual(VALLEY_POSITION);
+
+        const result = isWinningMove(startingGameState, pieceId, direction);
+        expect(result).toBe(false);
+    });
+    it("returns true if the move is a winning move", () => {
+        const direction: Direction = "NE";
+        const pieceId = "p2-king";
+        // Confirms the current player's king lands on the valley.
+        const piece = findPieceById(randomGameState, pieceId);
+        expect(piece).toBeDefined();
+        expect(piece?.owner).toBe(randomGameState.currentPlayer);
+        expect(piece?.role).toBe("KING");
+        const blockedPositions = getBlockedPositions(randomGameState);
+        const destination = getSlidingDestination(
+            piece!.position, 
+            direction, 
+            blockedPositions
+        );
+        expect(destination).toEqual(VALLEY_POSITION);
+
+        const result = isWinningMove(randomGameState, pieceId, direction);
+        expect(result).toBe(true);
     });
 });

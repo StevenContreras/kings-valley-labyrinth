@@ -37,7 +37,7 @@ export const startingBlockedPositions: Position[] = [
         { row: 5, col: 2 },// player 2 king
         { row: 2, col: 6 },// player 2 guard 4
         { row: 6, col: 5 },// player 2 guard 5
-        { row: 6, col: 0 },// player 2 guard 6
+        { row: 2, col: 4 },// player 2 guard 6
         { row: 2, col: 1 },// wall
         { row: 2, col: 5 },// wall
         { row: 4, col: 1 },// wall
@@ -62,6 +62,12 @@ export const startingBlockedPositions: Position[] = [
                 position: { row: 6, col: 1 },
             },
             {
+                id: "p1-king",
+                owner: "PLAYER_ONE",
+                role: "KING",
+                position: { row: 6, col: 3 },
+            },
+            {
                 id: "p2-guard-1",
                 owner: "PLAYER_TWO",
                 role: "GUARD",
@@ -69,7 +75,54 @@ export const startingBlockedPositions: Position[] = [
             }
         ],
         walls: [
-            { row: 5, col: 1}
+            { row: 4, col: 1}
+        ],
+        status: "IN_PROGRESS",
+        winner: null,
+    };
+
+    export const randomGameState: GameState = {
+        currentPlayer: "PLAYER_TWO",
+        pieces: [
+            {
+                id: "p1-guard-1",
+                owner: "PLAYER_ONE",
+                role: "GUARD",
+                position: { row: 6, col: 0 },
+            },
+            {
+                id: "p1-guard-2",
+                owner: "PLAYER_ONE",
+                role: "GUARD",
+                position: { row: 6, col: 1 },
+            },
+            {
+                id: "p1-king",
+                owner: "PLAYER_ONE",
+                role: "KING",
+                position: { row: 6, col: 3 },
+            },
+            {
+                id: "p2-king",
+                owner: "PLAYER_TWO",
+                role: "KING",
+                position: { row: 4, col: 2 },
+            },
+            {
+                id: "p2-guard-1",
+                owner: "PLAYER_TWO",
+                role: "GUARD",
+                position: { row: 0, col: 0 },
+            },
+            {
+                id: "p2-guard-6",
+                owner: "PLAYER_TWO",
+                role: "GUARD",
+                position: { row: 2, col: 4 },
+            }
+        ],
+        walls: [
+            { row: 4, col: 1}
         ],
         status: "IN_PROGRESS",
         winner: null,
