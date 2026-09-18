@@ -8,9 +8,15 @@ export function findPieceById(gameState: GameState, pieceId: string): Piece | un
     return gameState.pieces.find(piece => piece.id === pieceId);
 }
 
-export function isValidMove(gameState: GameState, pieceId: string, direction: Direction): boolean {
+export function isValidMove(gameState: GameState, pieceId: string, direction: Direction | null): boolean {
+    if (direction === null) {
+        return false;
+    }
     const piece = findPieceById(gameState, pieceId);
     if (piece === undefined) {
+        return false;
+    }
+    if (direction === null) {
         return false;
     }
     if (gameState.currentPlayer !== piece.owner) {

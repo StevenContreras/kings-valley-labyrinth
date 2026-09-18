@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getNextPosition, getSlidingDestination } from "../../src/game/movement";
+import { getNextPosition, getSlidingDestination, getDirectionFromPositions } from "../../src/game/movement";
 import { startingBlockedPositions, emptyBlockedPositions, randomBlockedPositions } from "./fixtures/gameStates";
 import type { Direction, Position } from "../../src/game/types";
 
@@ -270,4 +270,67 @@ describe("getSlidingDestination", () => {
         })
     });
 
+});
+
+describe("getDirectionFromPositions", () => {
+    it("returns N for a destination directly above the start position", () => {
+        const start: Position = { row: 6, col: 3 };
+        const destination: Position = { row: 1, col: 3 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("N");
+    });
+    it("returns NE for a destination diagonally above and to the right of the start position", () => {
+        const start: Position = { row: 6, col: 3 };
+        const destination: Position = { row: 5, col: 4 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("NE");
+    });
+    it("returns E for a destination directly to the right of the start position", () => {
+        const start: Position = { row: 6, col: 3 };
+        const destination: Position = { row: 6, col: 5 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("E");
+    });
+    it("returns SE for a destination diagonally below and to the right of the start position", () => {
+        const start: Position = { row: 0, col: 3 };
+        const destination: Position = { row: 1, col: 4 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("SE");
+    });
+    it("returns S for a destination directly below the start position", () => {
+        const start: Position = { row: 0, col: 3 };
+        const destination: Position = { row: 5, col: 3 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("S");
+    });
+    it("returns SW for a destination diagonally below and to the left of the start position", () => {
+        const start: Position = { row: 0, col: 3 };
+        const destination: Position = { row: 1, col: 2 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("SW");
+    });
+    it("returns W for a destination directly to the left of the start position", () => {
+        const start: Position = { row: 6, col: 3 };
+        const destination: Position = { row: 6, col: 0 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("W");
+    });
+    it("returns NW for a destination diagonally above and to the left of the start position", () => {
+        const start: Position = { row: 6, col: 3 };
+        const destination: Position = { row: 5, col: 2 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBe("NW");
+    });
+    it("returns null for a destination that is not in a straight line from the start position", () => {
+        const start: Position = { row: 6, col: 3 };
+        const destination: Position = { row: 5, col: 0 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBeNull();
+    });
+    it("returns null for a destination that is the same as the start position", () => {
+        const start: Position = { row: 6, col: 3 };
+        const destination: Position = { row: 6, col: 3 };
+        const result = getDirectionFromPositions(start, destination);
+        expect(result).toBeNull();
+    });
 });

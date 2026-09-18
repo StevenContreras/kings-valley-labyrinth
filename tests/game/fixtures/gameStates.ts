@@ -75,7 +75,8 @@ export const startingBlockedPositions: Position[] = [
             }
         ],
         walls: [
-            { row: 4, col: 1}
+            { row: 4, col: 1},
+            { row: 4, col: 5},
         ],
         status: "IN_PROGRESS",
         winner: null,
