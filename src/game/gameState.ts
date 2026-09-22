@@ -1,32 +1,34 @@
-import type { GameState, Position, Piece, Direction } from "./types";
-import { getDirectionFromPositions, getSlidingDestination } from "./movement";
-import { isValidMove, findPieceById } from "./rules";
-import { getBlockedPositions } from "./board";
-import { isSamePosition } from "./position";
+import type { Player, GameState, Position, Piece } from "./types";
+import { isValidMove, findPieceById, isWinningMove } from "./rules";
 
 export function applyMove(gameState: GameState, pieceId: string, destination: Position): GameState {
+    if (gameState.status === "WON") {
+        throw new Error("Game is already won");
+    }
     const piece: Piece | undefined = findPieceById(gameState, pieceId);
     if (piece === undefined) {
         throw new Error("No valid piece selected");
     }
 
-    const direction: Direction | null = getDirectionFromPositions(piece.position, destination);
-    if (direction === null || !isValidMove(gameState, pieceId, direction)) {
+    if (!isValidMove(gameState, pieceId, destination)) {
         throw new Error("Invalid move");
     }
 
-    const blockedPositions: Position[] = getBlockedPositions(gameState);
-    const destinationPosition: Position = getSlidingDestination(piece.position, direction, blockedPositions);
-    if (!isSamePosition(destination, destinationPosition)) {
-        throw new Error("Invalid move: destination does not match sliding destination");
-    }
+    const nextPlayer: Player = gameState.currentPlayer === "PLAYER_ONE" ? "PLAYER_TWO" : "PLAYER_ONE";
+
+    const didWin = isWinningMove(piece, destination);
 
     const newGameState: GameState = { 
         ...gameState,
+        currentPlayer: nextPlayer,
         pieces: gameState.pieces.map(piece =>
-            piece.id === pieceId ? { ...piece, position: destinationPosition } : piece 
+            piece.id === pieceId ? { ...piece, position: destination } : piece 
         ),
+        status: didWin ? "WON" : "IN_PROGRESS",
+        winner: didWin ? gameState.currentPlayer : null,
     };
+
+
 
     return newGameState;
 }

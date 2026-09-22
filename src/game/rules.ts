@@ -1,5 +1,5 @@
-import type { Direction, Piece, GameState } from './types';
-import { getSlidingDestination } from './movement';
+import type { Piece, GameState, Position } from './types';
+import { getSlidingDestination, getDirectionFromPositions } from './movement';
 import { getBlockedPositions } from './board';
 import { isSamePosition } from './position';
 import { VALLEY_POSITION } from './constants';
@@ -8,27 +8,17 @@ export function findPieceById(gameState: GameState, pieceId: string): Piece | un
     return gameState.pieces.find(piece => piece.id === pieceId);
 }
 
-export function isValidMove(gameState: GameState, pieceId: string, direction: Direction | null): boolean {
-    if (direction === null) {
+export function isValidMove(gameState: GameState, pieceId: string, destination: Position | null): boolean {
+    if (destination === null) {
         return false;
     }
     const piece = findPieceById(gameState, pieceId);
     if (piece === undefined) {
         return false;
     }
-    if (direction === null) {
-        return false;
-    }
     if (gameState.currentPlayer !== piece.owner) {
         return false;
     }
-
-    const blockedPositions = getBlockedPositions(gameState);
-    const destination = getSlidingDestination(
-        piece.position, 
-        direction, 
-        blockedPositions
-    );
     if (isSamePosition(piece.position, destination)) {
         return false;
     }
@@ -37,22 +27,21 @@ export function isValidMove(gameState: GameState, pieceId: string, direction: Di
         return false;
     }
 
+    const direction = getDirectionFromPositions(piece.position, destination);
+    if (direction === null) {
+        return false;
+    }
+    const slidingDestination = getSlidingDestination(piece.position, direction, getBlockedPositions(gameState));
+
+    if (!isSamePosition(slidingDestination, destination)) {
+        return false;
+    }
     return true; 
 }
 
-export function isWinningMove(gameState: GameState, pieceId: string, direction: Direction): boolean {
-    if (!isValidMove(gameState, pieceId, direction)) {
-        return false;
-    }
-
-    const piece = findPieceById(gameState, pieceId);
-    const blockedPositions = getBlockedPositions(gameState);
-    const destination = getSlidingDestination(
-        piece!.position, 
-        direction, 
-        blockedPositions
-    );
-    return piece!.role === "KING" &&
+// Destination must already be validated before calling this function i.e applyMove/isValidMove must be called first
+export function isWinningMove(piece: Piece, destination: Position): boolean {
+    return piece.role === "KING" &&
         isSamePosition(destination, VALLEY_POSITION);
 }
     

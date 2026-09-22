@@ -72,9 +72,18 @@ export const startingBlockedPositions: Position[] = [
                 owner: "PLAYER_TWO",
                 role: "GUARD",
                 position: { row: 0, col: 0 },
+            },
+            {
+                id: "p2-king",
+                owner: "PLAYER_TWO",
+                role: "KING",
+                position: { row: 0, col: 3 },
             }
+
         ],
         walls: [
+            { row: 2, col: 1},
+            { row: 2, col: 5},
             { row: 4, col: 1},
             { row: 4, col: 5},
         ],
@@ -123,7 +132,10 @@ export const startingBlockedPositions: Position[] = [
             }
         ],
         walls: [
-            { row: 4, col: 1}
+            { row: 2, col: 1},
+            { row: 2, col: 5},
+            { row: 4, col: 1},
+            { row: 4, col: 5},
         ],
         status: "IN_PROGRESS",
         winner: null,

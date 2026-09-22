@@ -11,7 +11,7 @@ describe("applyMove", () => {
         const updatedDestination = findPieceById(updatedGameState, pieceId)?.position;
         expect(updatedDestination).toEqual(destination);
         // Confirm that the original game state remains unmutated
-        expect(findPieceById(startingGameState, pieceId)?.position).toEqual({ row: 6, col: 0 });
+        expect(findPieceById(startingGameState, pieceId)?.position).toEqual({ row: 6, col: 0 });   
     });
     it("throws an error when trying to move a non-existent piece", () => {
         const pieceId = "non-existent-piece";
@@ -23,9 +23,9 @@ describe("applyMove", () => {
         const destination = { row: 1, col: 2 }; // Invalid move for this piece
         expect(() => applyMove(startingGameState, pieceId, destination)).toThrow("Invalid move");
     })
-    it("throws an error when trying to move a piece to a destinatin that does not match the sliding destination", () => {
+    it("throws an error when trying to move a piece to a destination that does not match the sliding destination", () => {
         const pieceId = "p1-king";
         const destination = { row: 3, col: 6 }; // Invalid move for this piece due to wall
-        expect(() => applyMove(startingGameState, pieceId, destination)).toThrow("Invalid move: destination does not match sliding destination");
+        expect(() => applyMove(startingGameState, pieceId, destination)).toThrow("Invalid move");
     });
 });
