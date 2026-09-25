@@ -1,0 +1,21 @@
+.board {
+    display: grid;
+    width: min(100%, 490px);
+    margin: 24px auto;
+    gap: 2px;
+    padding: 2px;
+    background: #343434;
+}
+.cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee4cf;
+}
+.wall {
+    background-color: #555;
+}
+.valley {
+    background-color: #D6AD42;
+}
