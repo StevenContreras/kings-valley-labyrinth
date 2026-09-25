@@ -78,6 +78,12 @@ export const startingBlockedPositions: Position[] = [
                 owner: "PLAYER_TWO",
                 role: "KING",
                 position: { row: 0, col: 3 },
+            },
+            {
+                id: "p2-guard-6",
+                owner: "PLAYER_TWO",
+                role: "GUARD",
+                position: { row: 0, col: 6 },
             }
 
         ],
@@ -139,6 +145,56 @@ export const startingBlockedPositions: Position[] = [
         ],
         status: "IN_PROGRESS",
         winner: null,
+    };
+
+    export const wonGameState: GameState = {
+        currentPlayer: "PLAYER_ONE",
+        pieces: [
+            {
+                id: "p1-guard-1",
+                owner: "PLAYER_ONE",
+                role: "GUARD",
+                position: { row: 6, col: 0 },
+            },
+            {
+                id: "p1-guard-2",
+                owner: "PLAYER_ONE",
+                role: "GUARD",
+                position: { row: 6, col: 1 },
+            },
+            {
+                id: "p1-king",
+                owner: "PLAYER_ONE",
+                role: "KING",
+                position: { row: 6, col: 3 },
+            },
+            {
+                id: "p2-king",
+                owner: "PLAYER_TWO",
+                role: "KING",
+                position: { row: 3, col: 3 },
+            },
+            {
+                id: "p2-guard-1",
+                owner: "PLAYER_TWO",
+                role: "GUARD",
+                position: { row: 0, col: 0 },
+            },
+            {
+                id: "p2-guard-6",
+                owner: "PLAYER_TWO",
+                role: "GUARD",
+                position: { row: 2, col: 4 },
+            }
+        ],
+        walls: [
+            { row: 2, col: 1},
+            { row: 2, col: 5},
+            { row: 4, col: 1},
+            { row: 4, col: 5},
+        ],
+        status: "WON",
+        winner: "PLAYER_TWO",
     };
 
     export const nonExistentPieceId = "non-existent-piece";
